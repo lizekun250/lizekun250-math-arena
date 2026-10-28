@@ -1,0 +1,67 @@
+{
+  "url": "https://lizekun250.github.io/lizekun250-math-arena/",
+  "verifiedAt": "2026-10-28T08:01:38.495Z",
+  "unauthenticated": true,
+  "files": [
+    {
+      "file": "index.html",
+      "url": "https://lizekun250.github.io/lizekun250-math-arena/",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "bytes": 56037,
+      "sha256": "dd058eeb7fb6bcc821ef7d568c9ac718b41550cd9f2036b0c7c18ebdee1a8d1d",
+      "matchesLocal": true
+    },
+    {
+      "file": "qrcode.png",
+      "url": "https://lizekun250.github.io/lizekun250-math-arena/qrcode.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 9914,
+      "sha256": "870725f9af35898095d4b80d0e0803bf0016b9eb4a4fd7a14892be54598bfe63",
+      "matchesLocal": true
+    },
+    {
+      "file": "poster.png",
+      "url": "https://lizekun250.github.io/lizekun250-math-arena/poster.png",
+      "status": 200,
+      "contentType": "image/png",
+      "bytes": 113258,
+      "sha256": "ee91230d8ad593614d0e4d13678670f2d71682065c3671fdaa04619a5842f3f7",
+      "matchesLocal": true
+    },
+    {
+      "file": "QR_CODE_README.md",
+      "url": "https://lizekun250.github.io/lizekun250-math-arena/QR_CODE_README.md",
+      "status": 200,
+      "contentType": "text/markdown; charset=utf-8",
+      "bytes": 2019,
+      "sha256": "7071680634a789d00b2930161a4a759156e0aa05aee9d030b9f42ba2c2a8a574",
+      "matchesLocal": true
+    },
+    {
+      "file": "high_school_sets_logic_v01.json",
+      "url": "https://lizekun250.github.io/lizekun250-math-arena/high_school_sets_logic_v01.json",
+      "status": 200,
+      "contentType": "application/json; charset=utf-8",
+      "bytes": 10916,
+      "sha256": "0e0b6759853d85f01524dfa1ba6e399a8843a1c77cb9ecff48029feec08df2be",
+      "matchesLocal": true
+    },
+    {
+      "file": "qrcode.svg",
+      "url": "https://lizekun250.github.io/lizekun250-math-arena/qrcode.svg",
+      "status": 200,
+      "contentType": "image/svg+xml",
+      "bytes": 2859,
+      "sha256": "1fb540993dc87c6d4c611bf2c26fa8231c932db78d2c0cebbe0964cc1f19b0b1",
+      "matchesLocal": true
+    }
+  ],
+  "failures": [],
+  "passed": true,
+  "userMainlandDirect": "user confirmed: 国内直连能打开并开始答题",
+  "physicalPhoneScan": false,
+  "realMobileLayoutTest": false,
+  "method": "Unauthenticated HTTPS downloads, byte-for-byte source comparison, independent QR decode; successful prior downloads retained on targeted retries; not real-device browser automation."
+}

@@ -42,6 +42,8 @@ Sites 已返回公开部署成功。自动化未登录 HTTP 请求被 Cloudflare
 
 GitHub Pages已实际部署：https://lizekun250.github.io/lizekun250-math-arena/ 。发布任务40652571586成功，未登录HTTPS返回200且为游戏HTML。用户反馈“国内直连能打开并开始答题”，属于用户实际浏览器反馈，未提供具体设备、浏览器或运营商。该反馈不能代替实体手机扫码、全部布局或多运营商验证。最终交付二维码已切换到该Pages地址。
 
+最终线上下载核验已全部通过：index.html、qrcode.png、qrcode.svg、poster.png、QR_CODE_README.md和原题库6个文件均为HTTP200，与本地SHA-256逐字节一致。线上PNG、SVG（渲染后）和海报均再次解码，完全匹配最终游戏URL。SVG首请求出现网络传输失败，单独重试后成功；保留其他已成功下载的检查，不把瞬时失败隐去。完整记录见verification/live-validation.json。没有声称通过实体手机扫码或真实移动浏览器排版测试。
+
 ## 待补测
 
 实体手机扫码、手机本地断网打开、微信内置浏览器、真实Safari/Android兼容、桌面与手机截图/溢出检查、大陆电信/移动/联通/校园网直连及课堂并发访问。在线1V1、房间、排行榜不在已实现或已测范围。

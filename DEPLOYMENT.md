@@ -52,4 +52,6 @@ GitHub Pages 的公共仓库免费资格见 [GitHub 官方说明](https://docs.g
 
 本地仓库初始化于Mathlab、分支main；Sites源码托管与GitHub代码托管分别管理，采用正常追加提交，不强制推送。GitHub连接器已确认对新仓库有admin/push权限。本地未配置GitHub CLI登录，故通过已连接GitHub API发布，不要求用户粘贴密钥。用户已设置Pages发布来源为main分支根目录，已创建.nojekyll；不需要Actions密钥、构建框架或额外后端。
 
-后续若改用 Git 命令行，可在官方流程登录后添加 GitHub remote；先 fetch 并保留远程历史，再正常 push。本次的发布记录会在交付完成时更新。
+本地已添加origin指向该GitHub仓库。但当前网络下git fetch访问github.com:443失败，API连接器发布与Pages访问正常；因此本地main的Sites提交历史与GitHub的API提交历史分别保留，没有执行重置或强推。后续使用命令行维护时，最简单的方式是在网络及官方登录就绪后新clone GitHub仓库再修改；若继续用原工作目录，先fetch并合并远程历史，再正常push，勿force覆盖。
+
+最终线上6文件的HTTP200、SHA-256与二维码解码结果见verification/live-validation.json；完整交付源码和验证文件已发布到上述公开仓库。没有购买或开通国内付费服务，正式国内域名/备案部署尚未完成。

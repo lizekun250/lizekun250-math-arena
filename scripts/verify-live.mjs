@@ -1,0 +1,15 @@
+import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {PNG} from 'pngjs';
+import jsQR from 'jsqr';
+import {Resvg} from '@resvg/resvg-js';
+const deploy=JSON.parse(readFileSync('deployment.json','utf8')),base=deploy.url;
+const hash=b=>createHash('sha256').update(b).digest('hex');
+const decode=buf=>{const p=PNG.sync.read(buf);return jsQR(new Uint8ClampedArray(p.data),p.width,p.height)?.data;};
+const previous=process.argv.includes('--retry-failed')&&existsSync('verification/live-validation.json')?JSON.parse(readFileSync('verification/live-validation.json','utf8')):null;
+const retained=previous?.url===base?previous.files:[];
+const files=['index.html','qrcode.png','qrcode.svg','poster.png','QR_CODE_README.md','high_school_sets_logic_v01.json'].filter(name=>!retained.some(r=>r.file===name));
+const results=await Promise.allSettled(files.map(async name=>{const url=name==='index.html'?base:new URL(name,base).href;const r=await fetch(url,{signal:AbortSignal.timeout(20000)});const bytes=Buffer.from(await r.arrayBuffer());if(r.status!==200)throw new Error(name+' HTTP '+r.status);const expected=readFileSync(name);if(hash(bytes)!==hash(expected))throw new Error(name+' content does not match local release');if(name.endsWith('.png')&&decode(bytes)!==base)throw new Error(name+' QR URL mismatch');if(name==='qrcode.svg'&&decode(new Resvg(bytes,{fitTo:{mode:'width',value:1176}}).render().asPng())!==base)throw new Error('Live SVG QR mismatch');return {file:name,url,status:r.status,contentType:r.headers.get('content-type'),bytes:bytes.length,sha256:hash(bytes),matchesLocal:true};}));
+const failures=results.map((r,i)=>r.status==='rejected'?files[i]+': '+String(r.reason):null).filter(Boolean);
+const report={url:base,verifiedAt:new Date().toISOString(),unauthenticated:true,files:[...retained,...results.filter(r=>r.status==='fulfilled').map(r=>r.value)],failures,passed:failures.length===0,userMainlandDirect:deploy.accessCheck.mainlandDirect,physicalPhoneScan:false,realMobileLayoutTest:false,method:'Unauthenticated HTTPS downloads, byte-for-byte source comparison, independent QR decode; successful prior downloads retained on targeted retries; not real-device browser automation.'};
+mkdirSync('verification',{recursive:true});writeFileSync('verification/live-validation.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));if(failures.length)process.exitCode=1;
