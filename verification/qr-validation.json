@@ -1,0 +1,24 @@
+{
+  "url": "https://lizekun250.github.io/lizekun250-math-arena/",
+  "generatedAt": "2026-10-28 15:53:40 UTC+08:00",
+  "pngDecoded": "https://lizekun250.github.io/lizekun250-math-arena/",
+  "svgDecoded": "https://lizekun250.github.io/lizekun250-math-arena/",
+  "posterDecoded": "https://lizekun250.github.io/lizekun250-math-arena/",
+  "dimensions": [
+    1176,
+    1176
+  ],
+  "quietZoneModules": 4,
+  "errorCorrection": "H",
+  "pngSHA256": "870725f9af35898095d4b80d0e0803bf0016b9eb4a4fd7a14892be54598bfe63",
+  "svgSHA256": "1fb540993dc87c6d4c611bf2c26fa8231c932db78d2c0cebbe0964cc1f19b0b1",
+  "physicalPhoneScan": false,
+  "accessCheck": {
+    "unauthenticatedHttpStatus": 200,
+    "gameHtml": true,
+    "mainlandDirect": "user confirmed: 国内直连能打开并开始答题",
+    "mainlandStability": "not tested",
+    "physicalPhoneScan": false,
+    "userVerifiedAt": "2026-10-28T07:53:37.744Z"
+  }
+}

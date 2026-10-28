@@ -1,0 +1,25 @@
+{
+  "status": "succeeded",
+  "url": "https://lizekun250.github.io/lizekun250-math-arena/",
+  "audience": "public",
+  "platform": "GitHub Pages",
+  "repository": "lizekun250/lizekun250-math-arena",
+  "workflowRun": 40652571586,
+  "workflowUrl": "https://github.com/lizekun250/lizekun250-math-arena/actions/runs/40652571586",
+  "sourceCommit": "1b6d47bbf19b8636a263952771874f688032f0e9",
+  "verifiedAt": "2026-10-28T07:52:12.888Z",
+  "accessCheck": {
+    "unauthenticatedHttpStatus": 200,
+    "gameHtml": true,
+    "mainlandDirect": "user confirmed: 国内直连能打开并开始答题",
+    "mainlandStability": "not tested",
+    "physicalPhoneScan": false,
+    "userVerifiedAt": "2026-10-28T07:53:37.744Z"
+  },
+  "previousSites": {
+    "url": "https://math-arena-trial.lizekun250.chatgpt.site",
+    "status": "deployed but unsuitable for mainland classroom",
+    "userFeedback": "国内直连不可访问，需要VPN",
+    "httpStatus": 403
+  }
+}

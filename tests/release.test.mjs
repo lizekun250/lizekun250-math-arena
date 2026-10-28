@@ -1,0 +1,15 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import jsQR from 'jsqr';
+import {PNG} from 'pngjs';
+import {Resvg} from '@resvg/resvg-js';
+const deployed=JSON.parse(readFileSync('deployment.json','utf8'));
+const report=JSON.parse(readFileSync('verification/qr-validation.json','utf8'));
+const html=readFileSync('index.html','utf8');
+const cfg=JSON.parse(html.match(/<script id="game-config"[^>]*>([\s\S]*?)<\/script>/)[1]);
+const decode=buf=>{const p=PNG.sync.read(buf);return jsQR(new Uint8ClampedArray(p.data),p.width,p.height)?.data;};
+test('发布目标、单文件内嵌二维码、PNG解码及README均一致',()=>{assert.equal(deployed.status,'succeeded');assert.match(deployed.url,/^https:\/\//);assert.equal(cfg.publishedUrl,deployed.url);const png=readFileSync('qrcode.png');assert.deepEqual(Buffer.from(cfg.qrDataUrl.split(',')[1],'base64'),png);assert.equal(decode(png),deployed.url);assert.equal(report.url,deployed.url);assert.ok(readFileSync('README.md','utf8').includes(deployed.url));assert.ok(readFileSync('QR_CODE_README.md','utf8').includes(deployed.url));assert.ok(!html.includes('math-arena-trial.lizekun250.chatgpt.site'));assert.equal(createHash('sha256').update(png).digest('hex'),report.pngSHA256);});
+test('SVG可独立渲染解码，PNG保留四模块留白',()=>{const svg=readFileSync('qrcode.svg','utf8');assert.doesNotMatch(svg,/https?:\/\/(?!www\.w3\.org)/);assert.equal(decode(new Resvg(svg,{fitTo:{mode:'width',value:1176}}).render().asPng()),deployed.url);const p=PNG.sync.read(readFileSync('qrcode.png'));assert.equal(p.width,1176);assert.equal(p.height,1176);for(let y=0;y<96;y++)for(let x=0;x<p.width;x++)assert.equal(p.data[(y*p.width+x)*4],255);});
+test('海报二维码可解码，dist与独立交付文件逐字节一致',()=>{assert.equal(decode(readFileSync('poster.png')),deployed.url);for(const f of ['index.html','qrcode.png','qrcode.svg','poster.png','QR_CODE_README.md'])assert.deepEqual(readFileSync('dist/'+f),readFileSync(f),f);});
