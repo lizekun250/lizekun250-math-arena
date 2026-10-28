@@ -5,3 +5,4 @@
 *.mjs text eol=lf
 *.svg text eol=lf
 *.png binary
+high_school_sets_logic_v01.json -text
