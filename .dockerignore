@@ -1,0 +1,11 @@
+.git
+node_modules
+data
+backups
+.env
+.env.*
+dist
+verification
+test-results
+*.tgz
+*.tar.gz

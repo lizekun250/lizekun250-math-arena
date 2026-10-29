@@ -7,3 +7,13 @@ test-results/
 .env
 .env.*
 !.env.example
+data/
+backups/
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.db-shm
+*.db-wal
+online-qr.png
+online-qr.svg

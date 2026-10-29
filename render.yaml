@@ -1,0 +1,20 @@
+# Free demonstration only: SQLite files disappear on restart/redeploy/spin-down.
+# Do not add a paid disk or change plans without the user's explicit authorization.
+services:
+  - type: web
+    name: math-arena-online
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_VERSION
+        value: 24.18.0
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_PATH
+        value: /tmp/math-arena.sqlite
+      - key: TRUST_PROXY
+        value: "true"
+# RENDER_EXTERNAL_URL is supplied by Render and is used as the public origin.

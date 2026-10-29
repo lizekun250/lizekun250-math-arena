@@ -1,0 +1,29 @@
+{
+  "url": "http://127.0.0.1:3000",
+  "verifiedAt": "2026-10-28T08:39:40.657Z",
+  "scope": "Local real HTTP/WebSocket clients on one computer",
+  "twoPhysicalDevices": false,
+  "twoDifferentNetworks": false,
+  "mainlandDirectVerified": false,
+  "checks": [
+    "Online backend health and version",
+    "Teacher creates room",
+    "Independent student joins",
+    "Independent student joins",
+    "Actual WebSocket transport connected for both students",
+    "Teacher starts authoritative match",
+    "Both students receive identical round and deadline",
+    "First student submits",
+    "Opponent answer and solution remain hidden; no early HP changes",
+    "Reconnect restores same identity and submitted lock",
+    "Second student submits",
+    "Both receive identical simultaneous settlement",
+    "Both students attack through server-computed damage",
+    "Downloaded room QR exactly matches student URL without teacher credential",
+    "Teacher ends match",
+    "Final result agrees for both students"
+  ],
+  "passed": true,
+  "roomQrDecodedCorrectly": true,
+  "roomClosedAfterTest": true
+}

@@ -1,0 +1,18 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {JSDOM,CookieJar,VirtualConsole} from 'jsdom';
+import {createApp} from '../server/app.mjs';
+import {loadBank} from '../server/bank.mjs';
+const wait=async(fn,ms=8000)=>{const end=Date.now()+ms;while(!fn()){if(Date.now()>end)throw new Error('DOM+network condition timed out');await new Promise(r=>setTimeout(r,20));}};
+test('三份隔离DOM会话运行真实前端+HTTP/Socket.IO：创建、入场、准备、作答、结算、教师再开',async t=>{
+ const app=createApp({database:':memory:',cfg:{feedbackMs:1000},pick:()=>0}),base=await app.listen(),windows=[];
+ t.after(async()=>{for(const w of windows)w.close();await app.close();});
+ async function page(path){const jar=new CookieJar(),errors=[],vc=new VirtualConsole();vc.on('jsdomError',e=>{if(!e.message.includes('Not implemented'))errors.push(e.message);});const dom=await JSDOM.fromURL(base+path,{cookieJar:jar,resources:'usable',runScripts:'dangerously',pretendToBeVisual:true,virtualConsole:vc,beforeParse(w){w.confirm=()=>true;w.scrollTo=()=>{};w.HTMLElement.prototype.scrollIntoView=()=>{};w.fetch=async(input,options={})=>{const url=new URL(input,w.location.href).href,cookie=jar.getCookieStringSync(url);const response=await fetch(url,{...options,headers:{...(options.headers||{}),...(cookie?{Cookie:cookie}:{}),Origin:base}});const set=response.headers.get('set-cookie');if(set)jar.setCookieSync(set,url);return response;};}});windows.push(dom.window);const $=id=>dom.window.document.getElementById(id);await wait(()=>$('connection').textContent.includes('服务已连接')||$('room-title').textContent);return {w:dom.window,$,errors};}
+ const teacher=await page('/');teacher.$('create-room').click();await wait(()=>!teacher.$('teacher-panel').hidden);const joinUrl=new URL(teacher.$('student-link').value);assert.match(joinUrl.pathname,/^\/join\//);assert.equal(teacher.$('start-match').disabled,true);
+ const alice=await page(joinUrl.pathname),bob=await page(joinUrl.pathname);
+ for(const [p,nickname] of [[alice,'DOM甲'],[bob,'DOM乙']]){p.$('nickname').value=nickname;p.$('join-form').dispatchEvent(new p.w.Event('submit',{bubbles:true,cancelable:true}));await wait(()=>!p.$('ready-button').hidden&&!p.$('ready-button').disabled);p.$('ready-button').click();}
+ await wait(()=>!teacher.$('start-match').disabled);teacher.$('start-match').click();await wait(()=>!alice.$('battle').hidden&&!bob.$('battle').hidden);assert.equal(alice.$('q-id').textContent,bob.$('q-id').textContent);assert.equal(alice.$('q-stem').textContent,bob.$('q-stem').textContent);
+ const q=loadBank().find(q=>q.id===alice.$('q-id').textContent),clickAnswer=p=>{const options=[...p.$('answers').children];options.find(button=>button.firstElementChild.textContent===q.answer).click();};
+ clickAnswer(alice);await wait(()=>alice.$('submit-state').textContent.includes('答案已锁定'));assert.equal(bob.$('settlement').hidden,true);assert.ok(!bob.$('submit-state').textContent.includes(q.answer));assert.ok([...alice.$('answers').children].every(button=>button.disabled));clickAnswer(bob);await wait(()=>!alice.$('settlement').hidden&&!bob.$('settlement').hidden);assert.equal(alice.$('solution').textContent,bob.$('solution').textContent);assert.match(alice.$('damage-results').textContent,/最终伤害/);
+ teacher.$('end-match').click();await wait(()=>!alice.$('result').hidden&&!bob.$('result').hidden);assert.equal(alice.$('result-title').textContent,bob.$('result-title').textContent);assert.match(alice.$('history').textContent,/正确答案/);teacher.$('restart-match').click();await wait(()=>!alice.$('lobby').hidden);assert.equal(alice.$('ready-button').textContent,'我准备好了');assert.match(alice.$('participants').textContent,/100/);for(const p of [teacher,alice,bob])assert.deepEqual(p.errors,[]);
+});
