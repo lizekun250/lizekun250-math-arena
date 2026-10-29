@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "status": "awaiting_hosting_tools",
+  "publicUrl": null,
+  "repository": "https://github.com/lizekun250/lizekun250-math-arena",
+  "implementationCommit": "69845b51f6dba79afb4d4e9eb6ae7a2b8f3f42e5",
+  "localTests": { "passed": 54, "failed": 0 },
+  "renderInstallationConfirmed": true,
+  "renderAuthorizationConfirmedByUser": true,
+  "hostingServiceCreated": false,
+  "blocker": "Render deployment tools were not present in the active turn after installation; browser fallback required separate login and Windows browser URL policy stopped computer use.",
+  "pending": [
+    "Load Render tools in a fresh conversation turn without repeating authorization",
+    "Inspect existing Render services before creating a Free web service from render.yaml",
+    "Verify actual deployed HTTPS origin and WSS with scripts/check-online.mjs",
+    "Generate online-entry-qrcode.png and SVG with scripts/publish-online-qr.mjs only after verification",
+    "Test two physical devices and different mainland networks, including phone QR scanning"
+  ],
+  "legacyPagesIsSinglePlayer": true,
+  "mainlandOnlineVerified": false,
+  "physicalPhoneScanVerified": false
+}
